@@ -10,13 +10,19 @@ import {
   Coffee,
   Heart,
   HeartHandshake,
+  Globe2,
   Home,
   Images,
   Mail,
+  MapPin,
   MessageCircle,
   Moon,
   Plane,
+  PlaneLanding,
+  PlaneTakeoff,
+  Route,
   Send,
+  Shuffle,
   Sparkles,
   Sun,
   Utensils,
@@ -25,12 +31,12 @@ import LogoutButton from "../components/LogoutButton.jsx";
 import PageTransition from "../components/PageTransition.jsx";
 import partnerImage from "../assets/partner-garden.png";
 import heroPhoto from "../assets/Pink/1768814216955.jpg";
-import roadPhoto from "../assets/Pink/1768984644774.jpg";
 import lakePhoto from "../assets/Pink/20251022_175256.jpg";
-import cafePhoto from "../assets/Pink/20251023_135348.jpg";
-import templePhoto from "../assets/Pink/20260111_142624.jpg";
 import trainPhoto from "../assets/Pink/dji_mimo_14830114_080624_20260114080625_1769013599926_photo.jpg";
-import sillyPhoto from "../assets/Pink/IMG_7833.PNG";
+import roadTripPhoto from "../assets/Pink/dji_mimo_14830115_140404_20260115140404_1769013588910_photo.jpg";
+import blueSkyPhoto from "../assets/Pink/dji_mimo_14830115_141326_20260115141327_1769013586894_photo.jpg";
+import sillyPhoto from "../assets/Pink/dji_mimo_14830121_151008_20260121151009_1768997096138_photo.jpg";
+import couchPhoto from "../assets/Pink/IMG_7229.JPG";
 import forestPhoto from "../assets/Pink/Screenshot_20260102_221200_Photos.jpg";
 import { getSession } from "../routes/auth.js";
 
@@ -38,9 +44,25 @@ const MISS_KEY = "partner_miss_count";
 const STATUS_KEY = "partner_status";
 const LETTERS_KEY = "partner_postbox_letters";
 const REUNION_DATE = new Date("2026-09-07T00:00:00+07:00");
+const yellowstonePoint = {
+  label: "Yellowstone National Park",
+  shortLabel: "Yellowstone",
+  lat: 44.428,
+  lng: -110.5885,
+  mapX: 193,
+  mapY: 109,
+};
+const bkkPoint = {
+  label: "Bangkok, Thailand",
+  shortLabel: "BKK",
+  lat: 13.69,
+  lng: 100.7501,
+  mapX: 780,
+  mapY: 182,
+};
 
 const loveLetter = [
-  "สุขสันต์วันครบรอบล่วงหน้าน้าปิ๊งง 💖",
+  "สุขสันต์วันครบรอบล่วงหน้าน้าปิ๊ง 💖",
   "ปีนี้เราอาจจะต้องฉลองกันเร็วนิดนึง เพราะอีกไม่กี่วันเค้าก็ต้องบินไปทำงานที่อเมริกาแล้ว แค่คิดว่าจะไม่ได้เจอหน้า ไม่ได้ไปไหนมาไหนด้วยกัน ไปตั้ง 4 เดือน ก็เริ่มคิดถึงตั้งแต่ตอนนี้เลย",
   'ระยะทางไปมอนแทนามันไกลกันคนละซีกโลก เวลาของเราก็คงไม่ตรงกัน แต่ขอให้รู้ไว้นะว่าระยะทางทำอะไรความรู้สึกเค้าไม่ได้เลย อิอิ เค้าจะตั้งใจทำงาน จะคอยอัปเดตชีวิตให้ฟังตลอด จะทำให้เหมือนเราไม่ได้ห่างกันไปไหนเลย ขอบคุณที่เป็นความสบายใจ เป็นกำลังใจ และเป็นคนที่ "Narak Tee Sud Nairok" สำหรับเค้าเสมอมานะ',
   "ช่วงที่เค้าไม่อยู่ ดูแลตัวเองดีๆ กินข้าวให้ตรงเวลา อย่าเจ็บอย่าป่วยนะ รอกอดเค้าแน่นๆ ในวันที่เค้ากลับมานะ รักปิ๊งมากๆงับ",
@@ -66,13 +88,8 @@ const statusOptions = [
 const timeline = [
   {
     image: heroPhoto,
-    title: "วัดสีสดใส",
+    title: "ยิ้มใกล้กัน",
     text: "รูปคู่ที่ยิ้มใกล้กันจนพื้นที่ทั้งรูปดูอบอุ่นขึ้นมาเลย",
-  },
-  {
-    image: roadPhoto,
-    title: "บนถนนยาว",
-    text: "ถนนไกลแค่ไหนก็ยังมีรูปที่ทำให้นึกถึงกันได้",
   },
   {
     image: lakePhoto,
@@ -80,24 +97,29 @@ const timeline = [
     text: "ช่วงเวลาธรรมดาที่กลายเป็นความทรงจำดี ๆ",
   },
   {
-    image: cafePhoto,
-    title: "มุมโต๊ะน่ารัก",
-    text: "เก็บโมเมนต์เล็ก ๆ ไว้เปิดดูตอนคิดถึง",
-  },
-  {
-    image: templePhoto,
-    title: "นั่งข้างกัน",
-    text: "แค่ได้นั่งข้างกันก็เป็นวันที่ดีแล้ว",
-  },
-  {
     image: trainPhoto,
     title: "ระหว่างทาง",
     text: "ทุกทริปมีเรื่องให้จำ และมีคนที่อยากกลับไปเล่าให้ฟัง",
   },
   {
+    image: roadTripPhoto,
+    title: "วันฟ้าใส",
+    text: "รูปที่มองแล้วรู้สึกเหมือนได้กลับไปเดินข้างกันอีกครั้ง",
+  },
+  {
+    image: blueSkyPhoto,
+    title: "วิวกว้าง ๆ",
+    text: "มีวิว มีแสง และมีเราสองคนอยู่ในความทรงจำเดียวกัน",
+  },
+  {
     image: sillyPhoto,
     title: "หน้าเล่น ๆ",
     text: "ความน่ารักที่ไม่ต้องตั้งใจ แต่ชนะทุกอย่าง",
+  },
+  {
+    image: couchPhoto,
+    title: "มุมสบายใจ",
+    text: "วันธรรมดาที่ดีขึ้นเพราะมีคนเดิมอยู่ใกล้ ๆ",
   },
   {
     image: forestPhoto,
@@ -173,6 +195,22 @@ function getCountdown(now) {
   return { days, hours, minutes };
 }
 
+function getDistanceKm(from, to) {
+  const earthRadiusKm = 6371;
+  const toRadians = (degree) => (degree * Math.PI) / 180;
+  const deltaLat = toRadians(to.lat - from.lat);
+  const deltaLng = toRadians(to.lng - from.lng);
+  const startLat = toRadians(from.lat);
+  const endLat = toRadians(to.lat);
+  const haversine =
+    Math.sin(deltaLat / 2) ** 2 +
+    Math.cos(startLat) * Math.cos(endLat) * Math.sin(deltaLng / 2) ** 2;
+
+  return Math.round(
+    2 * earthRadiusKm * Math.atan2(Math.sqrt(haversine), Math.sqrt(1 - haversine)),
+  );
+}
+
 export default function Partner() {
   const session = getSession();
   const displayName = session?.displayName || "Pink";
@@ -182,6 +220,7 @@ export default function Partner() {
   const [status, setStatus] = useState(() => readText(STATUS_KEY, statusOptions[0].label));
   const [draft, setDraft] = useState("");
   const [letters, setLetters] = useState(() => readJson(LETTERS_KEY, defaultLetters));
+  const [randomMemory, setRandomMemory] = useState(() => timeline[0]);
 
   useEffect(() => {
     const timer = window.setInterval(() => setNow(new Date()), 1000);
@@ -190,6 +229,10 @@ export default function Partner() {
 
   const countdown = useMemo(() => getCountdown(now), [now]);
   const activeStatus = statusOptions.find((item) => item.label === status) || statusOptions[0];
+  const routeDistanceKm = useMemo(
+    () => getDistanceKm(yellowstonePoint, bkkPoint).toLocaleString("th-TH"),
+    [],
+  );
 
   function handleMissClick() {
     setMissCount((current) => {
@@ -222,6 +265,18 @@ export default function Partner() {
     setLetters(nextLetters);
     window.localStorage.setItem(LETTERS_KEY, JSON.stringify(nextLetters));
     setDraft("");
+  }
+
+  function handleRandomMemory() {
+    setRandomMemory((current) => {
+      if (timeline.length <= 1) return current;
+
+      let next = current;
+      while (next.title === current.title) {
+        next = timeline[Math.floor(Math.random() * timeline.length)];
+      }
+      return next;
+    });
   }
 
   return (
@@ -268,8 +323,8 @@ export default function Partner() {
             <p className="text-sm font-semibold uppercase tracking-[0.28em] text-rose-200">
               For {displayName}
             </p>
-            <h1 className="glow-text partner-title mt-5 max-w-3xl text-4xl font-black leading-tight text-white sm:text-6xl lg:text-7xl">
-              สุขสันต์วันครบรอบล่วงหน้าน้าปิ๊งง
+            <h1 className="glow-text partner-title mt-5 max-w-3xl whitespace-nowrap text-[clamp(2.2rem,7vw,4.8rem)] font-black leading-[1.12] text-white">
+              รักปิ๊งน้า
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-9 text-rose-50/90">
               พื้นที่สีชมพูเล็ก ๆ สำหรับเก็บรูป ความคิดถึง เวลาอีกซีกโลก
@@ -399,6 +454,177 @@ export default function Partner() {
         </motion.article>
       </section>
 
+      <section className="section-pad py-8">
+        <motion.article
+          className="distance-map-card"
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.28 }}
+        >
+          <div className="map-copy">
+            <div className="panel-heading">
+              <Globe2 className="h-6 w-6 text-rosefire" />
+              <div>
+                <p>Distance Map</p>
+                <h2>Yellowstone National Park → BKK</h2>
+              </div>
+            </div>
+            <p className="mt-4 text-sm leading-7 text-rose-50/75">
+              เส้นทางความคิดถึงจากมอนแทนาฝั่ง Yellowstone ข้ามมหาสมุทรแปซิฟิก
+              กลับมาหาปิ๊งที่กรุงเทพฯ
+            </p>
+
+            <div className="route-stat-grid mt-6">
+              <div>
+                <Route className="h-5 w-5 text-rosefire" />
+                <span>ระยะทางตรง</span>
+                <strong>{routeDistanceKm} km</strong>
+              </div>
+              <div>
+                <PlaneTakeoff className="h-5 w-5 text-ember" />
+                <span>จาก</span>
+                <strong>Yellowstone</strong>
+              </div>
+              <div>
+                <PlaneLanding className="h-5 w-5 text-aqua" />
+                <span>ถึง</span>
+                <strong>BKK</strong>
+              </div>
+            </div>
+          </div>
+
+          <div className="route-map-stage" aria-label="แผนที่จาก Yellowstone National Park ไป BKK">
+            <svg className="route-map-svg" viewBox="0 0 1000 430" role="img">
+              <defs>
+                <linearGradient id="routeGradient" x1="0" x2="1" y1="0" y2="0">
+                  <stop offset="0%" stopColor="#ff5d8f" />
+                  <stop offset="52%" stopColor="#ffb86b" />
+                  <stop offset="100%" stopColor="#49d8ff" />
+                </linearGradient>
+                <filter id="routeGlow" x="-30%" y="-30%" width="160%" height="160%">
+                  <feGaussianBlur stdDeviation="7" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
+
+              <rect className="ocean-base" width="1000" height="430" rx="34" />
+              <g className="map-grid-lines">
+                <line x1="100" x2="100" y1="34" y2="396" />
+                <line x1="220" x2="220" y1="34" y2="396" />
+                <line x1="340" x2="340" y1="34" y2="396" />
+                <line x1="460" x2="460" y1="34" y2="396" />
+                <line x1="580" x2="580" y1="34" y2="396" />
+                <line x1="700" x2="700" y1="34" y2="396" />
+                <line x1="820" x2="820" y1="34" y2="396" />
+                <line x1="940" x2="940" y1="34" y2="396" />
+                <line x1="42" x2="958" y1="95" y2="95" />
+                <line x1="42" x2="958" y1="155" y2="155" />
+                <line x1="42" x2="958" y1="215" y2="215" />
+                <line x1="42" x2="958" y1="275" y2="275" />
+                <line x1="42" x2="958" y1="335" y2="335" />
+              </g>
+              <g className="world-land">
+                <path
+                  className="continent north-america"
+                  d="M79 105 C106 67 164 49 225 60 C285 70 326 104 349 145 C374 189 344 232 286 241 C240 248 218 228 176 232 C130 236 91 210 69 169 C57 144 60 123 79 105Z"
+                />
+                <path
+                  className="continent central-america"
+                  d="M268 234 C306 232 348 244 376 267 C363 287 318 287 282 270 C258 259 250 244 268 234Z"
+                />
+                <path
+                  className="continent south-america"
+                  d="M356 276 C394 288 423 326 412 370 C402 409 368 420 340 390 C314 362 300 305 320 281 C329 270 342 270 356 276Z"
+                />
+                <path
+                  className="continent greenland"
+                  d="M315 38 C357 24 409 34 421 62 C399 92 333 98 298 75 C279 61 286 47 315 38Z"
+                />
+                <path
+                  className="continent europe"
+                  d="M492 106 C533 80 591 85 618 119 C610 149 553 160 509 145 C478 134 468 120 492 106Z"
+                />
+                <path
+                  className="continent africa"
+                  d="M548 166 C592 162 631 198 636 252 C642 314 601 368 553 349 C515 334 499 276 512 219 C520 185 530 170 548 166Z"
+                />
+                <path
+                  className="continent asia"
+                  d="M611 100 C673 56 780 59 860 95 C930 127 946 181 896 218 C847 256 757 236 706 213 C666 195 619 201 593 166 C574 140 582 119 611 100Z"
+                />
+                <path
+                  className="continent middle-east"
+                  d="M616 169 C655 163 695 184 702 217 C673 231 629 219 602 192 C596 181 603 173 616 169Z"
+                />
+                <path
+                  className="continent south-east-asia"
+                  d="M758 228 C800 214 841 229 859 263 C836 290 780 290 748 263 C734 249 739 236 758 228Z"
+                />
+                <path
+                  className="continent australia"
+                  d="M785 323 C840 294 921 309 946 351 C905 387 815 389 760 357 C744 346 753 334 785 323Z"
+                />
+              </g>
+              <text className="map-region-label" x="175" y="154">North America</text>
+              <text className="map-region-label" x="345" y="343">South America</text>
+              <text className="map-region-label" x="525" y="134">Europe</text>
+              <text className="map-region-label" x="550" y="266">Africa</text>
+              <text className="map-region-label" x="742" y="155">Asia</text>
+              <text className="map-region-label ocean" x="444" y="214">Pacific Ocean</text>
+              <line className="map-date-line" x1="28" x2="28" y1="48" y2="382" />
+              <line className="map-date-line" x1="972" x2="972" y1="48" y2="382" />
+              <text className="map-date-label" x="42" y="70">Date line</text>
+
+              <path
+                className="route-arc"
+                d={`M ${yellowstonePoint.mapX} ${yellowstonePoint.mapY} C 132 54 66 68 28 127`}
+                filter="url(#routeGlow)"
+              />
+              <path
+                className="route-arc"
+                d={`M 972 127 C 920 74 834 105 ${bkkPoint.mapX} ${bkkPoint.mapY}`}
+                filter="url(#routeGlow)"
+              />
+              <circle className="map-pin-ring" cx={yellowstonePoint.mapX} cy={yellowstonePoint.mapY} r="20" />
+              <circle className="map-pin-dot start" cx={yellowstonePoint.mapX} cy={yellowstonePoint.mapY} r="8" />
+              <circle className="map-pin-ring" cx={bkkPoint.mapX} cy={bkkPoint.mapY} r="20" />
+              <circle className="map-pin-dot end" cx={bkkPoint.mapX} cy={bkkPoint.mapY} r="8" />
+
+              <text className="map-label" x={yellowstonePoint.mapX + 28} y={yellowstonePoint.mapY - 14}>
+                Yellowstone
+              </text>
+              <text className="map-label sub" x={yellowstonePoint.mapX + 28} y={yellowstonePoint.mapY + 12}>
+                Montana, USA
+              </text>
+              <text className="map-label" x={bkkPoint.mapX + 28} y={bkkPoint.mapY - 14}>
+                BKK
+              </text>
+              <text className="map-label sub" x={bkkPoint.mapX + 28} y={bkkPoint.mapY + 12}>
+                Bangkok, Thailand
+              </text>
+            </svg>
+
+            <div className="map-endpoints">
+              <span>
+                <MapPin className="h-4 w-4 text-rosefire" />
+                {yellowstonePoint.shortLabel}
+              </span>
+              <span>
+                <Plane className="h-4 w-4 text-ember" />
+                Pacific route
+              </span>
+              <span>
+                <MapPin className="h-4 w-4 text-aqua" />
+                {bkkPoint.shortLabel}
+              </span>
+            </div>
+          </div>
+        </motion.article>
+      </section>
+
       <section className="section-pad grid gap-6 py-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
         <motion.article
           className="love-letter-panel"
@@ -411,7 +637,7 @@ export default function Partner() {
               <p className="text-sm font-semibold uppercase tracking-[0.24em] text-rose-200">
                 Pink Letter
               </p>
-              <h2 className="mt-2 text-3xl font-black text-white sm:text-4xl">
+              <h2 className="mt-2 text-[clamp(1.6rem,4vw,2.4rem)] font-black leading-tight text-white">
                 ถึงคนที่น่ารักที่สุดในโลก
               </h2>
             </div>
@@ -488,14 +714,41 @@ export default function Partner() {
             <p className="text-sm font-semibold uppercase tracking-[0.24em] text-rose-200">
               Memory Timeline
             </p>
-            <h2 className="mt-2 text-3xl font-black text-white sm:text-4xl">
-              รูปดิบในกรอบความทรงจำ
+            <h2 className="mt-2 text-[clamp(1.7rem,4vw,2.5rem)] font-black leading-tight text-white">
+              รูปของเราสอง
             </h2>
           </div>
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.08] px-4 py-3 text-sm font-bold text-white backdrop-blur-xl">
-            <Images className="h-5 w-5 text-rosefire" />
-            {timeline.length} memories
+          <button className="random-memory-button" type="button" onClick={handleRandomMemory}>
+            <Shuffle className="h-5 w-5" />
+            สุ่มรูป
+          </button>
+        </div>
+
+        <motion.article
+          className="random-memory-panel mt-8"
+          key={randomMemory.title}
+          initial={{ opacity: 0, y: 18, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.38 }}
+        >
+          <img src={randomMemory.image} alt={`รูปสุ่ม: ${randomMemory.title}`} />
+          <div>
+            <span>
+              <Images className="h-5 w-5 text-rosefire" />
+              Random Memory
+            </span>
+            <h3>{randomMemory.title}</h3>
+            <p>{randomMemory.text}</p>
+            <button type="button" onClick={handleRandomMemory}>
+              <Shuffle className="h-4 w-4" />
+              สุ่มอีกรูป
+            </button>
           </div>
+        </motion.article>
+
+        <div className="mt-8 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.08] px-4 py-3 text-sm font-bold text-white backdrop-blur-xl">
+          <Images className="h-5 w-5 text-rosefire" />
+          {timeline.length} memories
         </div>
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

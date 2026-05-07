@@ -5,7 +5,7 @@
 :root {
   color-scheme: dark;
   font-family:
-    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Kanit", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", sans-serif;
   background: #050509;
 }
@@ -27,7 +27,8 @@ body {
 }
 
 button,
-input {
+input,
+textarea {
   font: inherit;
 }
 
@@ -259,6 +260,9 @@ button {
 
   .photo-caption {
     @apply absolute bottom-5 left-5 z-10 inline-flex items-center gap-2 rounded-full border border-white/25 bg-black/35 px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-white shadow-rose backdrop-blur-xl;
+    max-width: calc(100% - 2.5rem);
+    flex-wrap: wrap;
+    line-height: 1.25;
   }
 
   .raw-photo-frame {
@@ -339,12 +343,19 @@ button {
     @apply flex items-center gap-4;
   }
 
+  .panel-heading > div {
+    min-width: 0;
+  }
+
   .panel-heading p {
-    @apply text-xs font-bold uppercase tracking-[0.22em] text-rose-200;
+    @apply text-xs font-bold uppercase tracking-[0.18em] text-rose-200;
+    line-height: 1.35;
   }
 
   .panel-heading h2 {
     @apply mt-1 text-xl font-black text-white;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
   }
 
   .time-card {
@@ -356,7 +367,9 @@ button {
   }
 
   .time-card strong {
-    @apply mt-1 block text-3xl font-black text-white;
+    @apply mt-1 block font-black text-white;
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    line-height: 1.1;
   }
 
   .time-card small {
@@ -364,7 +377,7 @@ button {
   }
 
   .countdown-row {
-    @apply grid grid-cols-3 gap-3;
+    @apply grid grid-cols-1 gap-3 sm:grid-cols-3;
   }
 
   .countdown-row span {
@@ -372,12 +385,18 @@ button {
   }
 
   .countdown-row strong {
-    @apply block text-4xl font-black text-white;
+    @apply block font-black text-white;
+    font-size: clamp(2rem, 7vw, 3rem);
+    line-height: 1;
   }
 
   .miss-button,
-  .postbox-button {
+  .postbox-button,
+  .random-memory-button {
     @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-rose-100/35 bg-rosefire px-5 py-3 text-sm font-black text-white shadow-rose transition hover:-translate-y-0.5 hover:bg-white hover:text-ink focus:outline-none focus:ring-2 focus:ring-rosefire/60;
+    min-width: 0;
+    line-height: 1.35;
+    white-space: normal;
   }
 
   .miss-button span {
@@ -398,6 +417,7 @@ button {
 
   .letter-note {
     @apply flex gap-3 rounded-2xl border border-white/15 bg-black/20 p-4;
+    min-width: 0;
   }
 
   .letter-note p {
@@ -408,8 +428,160 @@ button {
     @apply mt-2 block text-xs font-bold uppercase tracking-[0.18em] text-rose-200/70;
   }
 
+  .distance-map-card {
+    @apply grid gap-6 overflow-hidden rounded-3xl border border-rose-100/20 bg-white/[0.08] p-5 shadow-rose backdrop-blur-2xl lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)] lg:items-center lg:p-6;
+  }
+
+  .map-copy,
+  .route-map-stage {
+    min-width: 0;
+  }
+
+  .route-stat-grid {
+    @apply grid gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3;
+  }
+
+  .route-stat-grid div {
+    @apply rounded-2xl border border-white/15 bg-black/20 p-4;
+    min-width: 0;
+  }
+
+  .route-stat-grid span {
+    @apply mt-3 block text-xs font-bold uppercase tracking-[0.16em] text-rose-200;
+    line-height: 1.35;
+  }
+
+  .route-stat-grid strong {
+    @apply mt-1 block text-lg font-black text-white;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+  }
+
+  .route-map-stage {
+    @apply rounded-3xl border border-white/15 bg-black/25 p-3;
+  }
+
+  .route-map-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1000 / 430;
+    border-radius: 1.35rem;
+    overflow: hidden;
+  }
+
+  .route-map-svg .ocean-base {
+    fill: rgba(8, 20, 34, 0.84);
+  }
+
+  .map-grid-lines line {
+    stroke: rgba(255, 255, 255, 0.12);
+    stroke-width: 1;
+  }
+
+  .route-map-svg .continent {
+    fill: rgba(219, 255, 235, 0.2);
+    stroke: rgba(255, 255, 255, 0.34);
+    stroke-width: 2.2;
+    stroke-linejoin: round;
+  }
+
+  .route-map-svg .north-america,
+  .route-map-svg .central-america,
+  .route-map-svg .south-america,
+  .route-map-svg .greenland {
+    fill: rgba(134, 235, 188, 0.2);
+  }
+
+  .route-map-svg .europe,
+  .route-map-svg .africa {
+    fill: rgba(255, 232, 177, 0.18);
+  }
+
+  .route-map-svg .asia,
+  .route-map-svg .middle-east,
+  .route-map-svg .south-east-asia {
+    fill: rgba(255, 151, 188, 0.2);
+  }
+
+  .route-map-svg .australia {
+    fill: rgba(73, 216, 255, 0.18);
+  }
+
+  .map-date-line {
+    stroke: rgba(255, 255, 255, 0.38);
+    stroke-dasharray: 8 12;
+    stroke-width: 2;
+  }
+
+  .route-arc {
+    fill: none;
+    stroke: url("#routeGradient");
+    stroke-width: 7;
+    stroke-linecap: round;
+    stroke-dasharray: 16 14;
+    animation: route-dash 4.8s linear infinite;
+  }
+
+  .map-pin-ring {
+    fill: rgba(255, 255, 255, 0.1);
+    stroke: rgba(255, 255, 255, 0.74);
+    stroke-width: 3;
+  }
+
+  .map-pin-dot {
+    fill: #ff5d8f;
+  }
+
+  .map-pin-dot.end {
+    fill: #49d8ff;
+  }
+
+  .map-label {
+    fill: #fff7fb;
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: 0;
+  }
+
+  .map-label.sub {
+    fill: rgba(255, 236, 245, 0.76);
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .map-region-label {
+    fill: rgba(255, 255, 255, 0.58);
+    font-size: 19px;
+    font-weight: 800;
+    letter-spacing: 0;
+    pointer-events: none;
+  }
+
+  .map-region-label.ocean {
+    fill: rgba(73, 216, 255, 0.44);
+    font-size: 22px;
+  }
+
+  .map-date-label {
+    fill: rgba(255, 255, 255, 0.5);
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0;
+  }
+
+  .map-endpoints {
+    @apply mt-3 flex flex-wrap items-center justify-center gap-2;
+  }
+
+  .map-endpoints span {
+    @apply inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.08] px-3 py-2 text-xs font-bold text-white;
+    line-height: 1.35;
+  }
+
   .timeline-card {
     @apply overflow-hidden rounded-3xl border border-white/15 bg-white/[0.08] shadow-rose backdrop-blur-xl;
+    min-width: 0;
   }
 
   .timeline-card img {
@@ -422,18 +594,64 @@ button {
 
   .timeline-card div {
     @apply p-4;
+    min-width: 0;
   }
 
   .timeline-card span {
-    @apply text-xs font-black uppercase tracking-[0.2em] text-rose-200;
+    @apply text-xs font-black uppercase tracking-[0.16em] text-rose-200;
+    line-height: 1.35;
   }
 
   .timeline-card h3 {
     @apply mt-2 text-lg font-black text-white;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
   }
 
   .timeline-card p {
     @apply mt-2 text-sm leading-7 text-rose-50/75;
+    overflow-wrap: anywhere;
+  }
+
+  .random-memory-panel {
+    @apply grid gap-5 overflow-hidden rounded-3xl border border-rose-100/20 bg-white/[0.08] p-3 shadow-rose backdrop-blur-2xl lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-center lg:p-4;
+  }
+
+  .random-memory-panel img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 1.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+  }
+
+  .random-memory-panel div {
+    min-width: 0;
+    padding: 0.5rem 0.5rem 0.75rem;
+  }
+
+  .random-memory-panel span {
+    @apply inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.16em] text-rose-200;
+    line-height: 1.35;
+  }
+
+  .random-memory-panel h3 {
+    @apply mt-3 font-black text-white;
+    font-size: clamp(1.5rem, 4vw, 2.35rem);
+    line-height: 1.15;
+    overflow-wrap: anywhere;
+  }
+
+  .random-memory-panel p {
+    @apply mt-3 max-w-xl text-sm text-rose-50/75;
+    line-height: 1.85;
+  }
+
+  .random-memory-panel button {
+    @apply mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.1] px-4 py-2 text-sm font-bold text-white transition hover:border-rosefire/60 hover:bg-rosefire/20 focus:outline-none focus:ring-2 focus:ring-rosefire/50;
+    line-height: 1.35;
   }
 
   .miss-burst {
@@ -543,10 +761,17 @@ button {
   }
 }
 
+@keyframes route-dash {
+  to {
+    stroke-dashoffset: -120;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .heart-field span,
   .pink-photo-frame::before,
-  .photo-sparkle {
+  .photo-sparkle,
+  .route-arc {
     animation: none;
   }
 }
