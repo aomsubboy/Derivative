@@ -761,6 +761,13 @@ function MemoryGallery() {
 }
 
 function FamilyTreeBoard() {
+  const catPhotos = [
+    {
+      name: "อ้วง",
+      src: "https://ik.imagekit.io/gonkvdlk0/IMG_0559.jpg",
+    },
+  ];
+
   return (
     <section className="family-tree-stack" aria-label="แผนผังครอบครัวพึ่งภักดี">
       <div className="lineage-board">
@@ -817,12 +824,28 @@ function FamilyTreeBoard() {
         </div>
 
         <div className="cat-photo-grid">
-          {Array.from({ length: 16 }, (_, index) => (
-            <div className="cat-photo-slot" key={`cat-slot-${index + 1}`}>
-              <Camera className="h-7 w-7" />
-              <strong>Cat {String(index + 1).padStart(2, "0")}</strong>
-            </div>
-          ))}
+          {Array.from({ length: 16 }, (_, index) => {
+            const cat = catPhotos[index];
+
+            return (
+              <div
+                className={`cat-photo-slot ${cat ? "has-photo" : ""}`}
+                key={`cat-slot-${index + 1}`}
+              >
+                {cat ? (
+                  <>
+                    <img src={cat.src} alt={`รูปแมว ${cat.name}`} loading="lazy" />
+                    <strong>{cat.name}</strong>
+                  </>
+                ) : (
+                  <>
+                    <Camera className="h-7 w-7" />
+                    <strong>Cat {String(index + 1).padStart(2, "0")}</strong>
+                  </>
+                )}
+              </div>
+            );
+          })}
         </div>
       </section>
     </section>

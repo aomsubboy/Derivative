@@ -1210,12 +1210,28 @@ button {
     @apply flex aspect-square flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-ember/35 bg-ember/[0.08] text-ember transition;
   }
 
+  .cat-photo-slot.has-photo {
+    @apply relative overflow-hidden border-solid border-ember/45 bg-black/30 p-0 text-white shadow-gold;
+  }
+
   .cat-photo-slot:hover {
     @apply -translate-y-1 border-aqua/45 bg-aqua/[0.08] text-aqua shadow-glow;
   }
 
+  .cat-photo-slot.has-photo:hover {
+    @apply border-ember/60 bg-black/30 text-white;
+  }
+
+  .cat-photo-slot img {
+    @apply h-full w-full object-cover;
+  }
+
   .cat-photo-slot strong {
     @apply text-sm font-black;
+  }
+
+  .cat-photo-slot.has-photo strong {
+    @apply absolute inset-x-3 bottom-3 rounded-full border border-white/20 bg-black/55 px-3 py-2 text-center text-white backdrop-blur-xl;
   }
 
   .lineage-board::before {
