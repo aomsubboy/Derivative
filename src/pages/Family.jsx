@@ -770,6 +770,10 @@ function FamilyTreeBoard() {
       name: "ไอสามสี",
       src: "https://ik.imagekit.io/gonkvdlk0/20230924125551757.jpg",
     },
+    {
+      name: "Money และ Nice",
+      src: "https://ik.imagekit.io/gonkvdlk0/20180424_213148.jpg",
+    },
   ];
 
   return (
