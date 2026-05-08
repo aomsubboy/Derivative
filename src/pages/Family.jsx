@@ -766,6 +766,10 @@ function FamilyTreeBoard() {
       name: "อ้วง",
       src: "https://ik.imagekit.io/gonkvdlk0/IMG_0559.jpg",
     },
+    {
+      name: "ไอสามสี",
+      src: "https://ik.imagekit.io/gonkvdlk0/20230924125551757.jpg",
+    },
   ];
 
   return (

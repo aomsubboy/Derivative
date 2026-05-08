@@ -1231,7 +1231,10 @@ button {
   }
 
   .cat-photo-slot.has-photo strong {
-    @apply absolute inset-x-3 bottom-3 rounded-full border border-white/20 bg-black/55 px-3 py-2 text-center text-white backdrop-blur-xl;
+    @apply absolute bottom-2 right-2 rounded-full border border-white/20 bg-black/55 px-2.5 py-1 text-right font-black text-white backdrop-blur-xl;
+    max-width: calc(100% - 1rem);
+    font-size: 0.68rem;
+    line-height: 1;
   }
 
   .lineage-board::before {
