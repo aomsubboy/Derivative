@@ -1,6 +1,11 @@
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL?.replace(/\/$/, "");
+const fallbackSupabaseUrl = "https://uullrzbhntisaspcxltu.supabase.co";
+const fallbackSupabasePublishableKey = "sb_publishable_1XtBQ88CABMwZZ7S-fSLWA_27ZmRlcp";
+
+const supabaseUrl = (import.meta.env.VITE_SUPABASE_URL || fallbackSupabaseUrl).replace(/\/$/, "");
 const supabasePublishableKey =
-  import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || import.meta.env.VITE_SUPABASE_ANON_KEY;
+  import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
+  import.meta.env.VITE_SUPABASE_ANON_KEY ||
+  fallbackSupabasePublishableKey;
 const lettersTable = "partner_letters";
 
 export const isSupabaseLettersEnabled = Boolean(supabaseUrl && supabasePublishableKey);
