@@ -32,6 +32,11 @@ import PageTransition from "../components/PageTransition.jsx";
 import partnerImage from "../assets/partner-garden.png";
 import pinkMemories from "../data/pinkMemories.json";
 import { getSession } from "../routes/auth.js";
+import {
+  fetchPartnerLetters,
+  isSupabaseLettersEnabled,
+  savePartnerLetter,
+} from "../services/partnerLetters.js";
 
 const MISS_KEY = "partner_miss_count";
 const STATUS_KEY = "partner_status";
@@ -82,6 +87,12 @@ const pinkMemoryTimeline = pinkMemories;
 const heroPhoto = pinkMemoryTimeline[0]?.image || partnerImage;
 const randomMemoryTransform = "w-1200,q-82,f-auto";
 const memoryCardTransform = "w-720,q-80,f-auto";
+const letterStatusText = {
+  loading: "กำลังโหลดจดหมาย...",
+  ready: "กล่องจดหมายพร้อมแล้ว",
+  sent: "ส่งจดหมายแล้ว",
+  error: "ส่งไม่สำเร็จ ลองเช็ก Supabase อีกที",
+};
 
 function getOptimizedImageUrl(src, transform) {
   if (!src.includes("ik.imagekit.io")) return src;
@@ -181,11 +192,42 @@ export default function Partner() {
   const [status, setStatus] = useState(() => readText(STATUS_KEY, statusOptions[0].label));
   const [draft, setDraft] = useState("");
   const [letters, setLetters] = useState(() => readJson(LETTERS_KEY, defaultLetters));
+  const [letterStatus, setLetterStatus] = useState(
+    isSupabaseLettersEnabled ? "loading" : "local",
+  );
+  const [isLetterSending, setIsLetterSending] = useState(false);
   const [randomMemory, setRandomMemory] = useState(() => pinkMemoryTimeline[0]);
 
   useEffect(() => {
     const timer = window.setInterval(() => setNow(new Date()), 1000);
     return () => window.clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    if (!isSupabaseLettersEnabled) return undefined;
+
+    let isMounted = true;
+
+    async function loadLetters() {
+      try {
+        const remoteLetters = await fetchPartnerLetters();
+        if (!isMounted) return;
+
+        if (remoteLetters.length > 0) {
+          setLetters(remoteLetters);
+          window.localStorage.setItem(LETTERS_KEY, JSON.stringify(remoteLetters));
+        }
+        setLetterStatus("ready");
+      } catch (error) {
+        console.error(error);
+        if (isMounted) setLetterStatus("error");
+      }
+    }
+
+    loadLetters();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const countdown = useMemo(() => getCountdown(now), [now]);
@@ -209,23 +251,34 @@ export default function Partner() {
     window.localStorage.setItem(STATUS_KEY, nextStatus);
   }
 
-  function handleLetterSubmit(event) {
+  async function handleLetterSubmit(event) {
     event.preventDefault();
     const text = draft.trim();
     if (!text) return;
 
-    const nextLetter = {
-      id: crypto.randomUUID(),
-      text,
-      createdAt: new Intl.DateTimeFormat("th-TH", {
-        dateStyle: "medium",
-        timeStyle: "short",
-      }).format(new Date()),
-    };
-    const nextLetters = [nextLetter, ...letters].slice(0, 5);
-    setLetters(nextLetters);
-    window.localStorage.setItem(LETTERS_KEY, JSON.stringify(nextLetters));
-    setDraft("");
+    setIsLetterSending(true);
+
+    try {
+      const nextLetter =
+        (await savePartnerLetter({ text, sender: displayName })) || {
+          id: crypto.randomUUID(),
+          text,
+          createdAt: new Intl.DateTimeFormat("th-TH", {
+            dateStyle: "medium",
+            timeStyle: "short",
+          }).format(new Date()),
+        };
+      const nextLetters = [nextLetter, ...letters].slice(0, 5);
+      setLetters(nextLetters);
+      window.localStorage.setItem(LETTERS_KEY, JSON.stringify(nextLetters));
+      setDraft("");
+      setLetterStatus(isSupabaseLettersEnabled ? "sent" : "local");
+    } catch (error) {
+      console.error(error);
+      setLetterStatus("error");
+    } finally {
+      setIsLetterSending(false);
+    }
   }
 
   function handleRandomMemory() {
@@ -650,10 +703,15 @@ export default function Partner() {
               placeholder="ฝากข้อความสั้น ๆ ไว้ให้ปิ๊ง..."
               rows={4}
             />
-            <button className="postbox-button mt-3" type="submit">
+            <button className="postbox-button mt-3" type="submit" disabled={isLetterSending}>
               <Send className="h-4 w-4" />
-              ฝากจดหมาย
+              {isLetterSending ? "กำลังส่ง..." : "ฝากจดหมาย"}
             </button>
+            {letterStatusText[letterStatus] && (
+              <p className="postbox-status" aria-live="polite">
+                {letterStatusText[letterStatus]}
+              </p>
+            )}
           </form>
           <div className="mt-6 grid gap-3">
             {letters.map((letter) => (
