@@ -30,14 +30,7 @@ import {
 import LogoutButton from "../components/LogoutButton.jsx";
 import PageTransition from "../components/PageTransition.jsx";
 import partnerImage from "../assets/partner-garden.png";
-import heroPhoto from "../assets/Pink/1768814216955.jpg";
-import lakePhoto from "../assets/Pink/20251022_175256.jpg";
-import trainPhoto from "../assets/Pink/dji_mimo_14830114_080624_20260114080625_1769013599926_photo.jpg";
-import roadTripPhoto from "../assets/Pink/dji_mimo_14830115_140404_20260115140404_1769013588910_photo.jpg";
-import blueSkyPhoto from "../assets/Pink/dji_mimo_14830115_141326_20260115141327_1769013586894_photo.jpg";
-import sillyPhoto from "../assets/Pink/dji_mimo_14830121_151008_20260121151009_1768997096138_photo.jpg";
-import couchPhoto from "../assets/Pink/IMG_7229.JPG";
-import forestPhoto from "../assets/Pink/Screenshot_20260102_221200_Photos.jpg";
+import pinkMemories from "../data/pinkMemories.json";
 import { getSession } from "../routes/auth.js";
 
 const MISS_KEY = "partner_miss_count";
@@ -85,48 +78,16 @@ const statusOptions = [
   { label: "อยู่บ้าน", icon: Home, detail: "โหมดสบายใจ" },
 ];
 
-const timeline = [
-  {
-    image: heroPhoto,
-    title: "ยิ้มใกล้กัน",
-    text: "รูปคู่ที่ยิ้มใกล้กันจนพื้นที่ทั้งรูปดูอบอุ่นขึ้นมาเลย",
-  },
-  {
-    image: lakePhoto,
-    title: "แสงเย็นริมทะเลสาบ",
-    text: "ช่วงเวลาธรรมดาที่กลายเป็นความทรงจำดี ๆ",
-  },
-  {
-    image: trainPhoto,
-    title: "ระหว่างทาง",
-    text: "ทุกทริปมีเรื่องให้จำ และมีคนที่อยากกลับไปเล่าให้ฟัง",
-  },
-  {
-    image: roadTripPhoto,
-    title: "วันฟ้าใส",
-    text: "รูปที่มองแล้วรู้สึกเหมือนได้กลับไปเดินข้างกันอีกครั้ง",
-  },
-  {
-    image: blueSkyPhoto,
-    title: "วิวกว้าง ๆ",
-    text: "มีวิว มีแสง และมีเราสองคนอยู่ในความทรงจำเดียวกัน",
-  },
-  {
-    image: sillyPhoto,
-    title: "หน้าเล่น ๆ",
-    text: "ความน่ารักที่ไม่ต้องตั้งใจ แต่ชนะทุกอย่าง",
-  },
-  {
-    image: couchPhoto,
-    title: "มุมสบายใจ",
-    text: "วันธรรมดาที่ดีขึ้นเพราะมีคนเดิมอยู่ใกล้ ๆ",
-  },
-  {
-    image: forestPhoto,
-    title: "คิดถึงกลางทาง",
-    text: "รูปหนึ่งรูปก็ช่วยให้ระยะทางสั้นลงได้",
-  },
-];
+const pinkMemoryTimeline = pinkMemories;
+const heroPhoto = pinkMemoryTimeline[0]?.image || partnerImage;
+const randomMemoryTransform = "w-1200,q-82,f-auto";
+const memoryCardTransform = "w-720,q-80,f-auto";
+
+function getOptimizedImageUrl(src, transform) {
+  if (!src.includes("ik.imagekit.io")) return src;
+  const separator = src.includes("?") ? "&" : "?";
+  return `${src}${separator}tr=${transform}`;
+}
 
 const floatingHearts = [
   { left: "5%", top: "16%", delay: "0s", duration: "7.2s", scale: 1.1 },
@@ -220,7 +181,7 @@ export default function Partner() {
   const [status, setStatus] = useState(() => readText(STATUS_KEY, statusOptions[0].label));
   const [draft, setDraft] = useState("");
   const [letters, setLetters] = useState(() => readJson(LETTERS_KEY, defaultLetters));
-  const [randomMemory, setRandomMemory] = useState(() => timeline[0]);
+  const [randomMemory, setRandomMemory] = useState(() => pinkMemoryTimeline[0]);
 
   useEffect(() => {
     const timer = window.setInterval(() => setNow(new Date()), 1000);
@@ -269,11 +230,11 @@ export default function Partner() {
 
   function handleRandomMemory() {
     setRandomMemory((current) => {
-      if (timeline.length <= 1) return current;
+      if (pinkMemoryTimeline.length <= 1) return current;
 
       let next = current;
-      while (next.title === current.title) {
-        next = timeline[Math.floor(Math.random() * timeline.length)];
+      while (next.image === current.image) {
+        next = pinkMemoryTimeline[Math.floor(Math.random() * pinkMemoryTimeline.length)];
       }
       return next;
     });
@@ -352,7 +313,7 @@ export default function Partner() {
           >
             <img
               className="raw-memory-photo"
-              src={heroPhoto}
+              src={getOptimizedImageUrl(heroPhoto, randomMemoryTransform)}
               alt="รูปความทรงจำคู่รักของ Pink"
             />
             <figcaption className="photo-caption">
@@ -726,12 +687,16 @@ export default function Partner() {
 
         <motion.article
           className="random-memory-panel mt-8"
-          key={randomMemory.title}
+          key={randomMemory.image}
           initial={{ opacity: 0, y: 18, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.38 }}
         >
-          <img src={randomMemory.image} alt={`รูปสุ่ม: ${randomMemory.title}`} />
+          <img
+            src={getOptimizedImageUrl(randomMemory.image, randomMemoryTransform)}
+            alt={`รูปสุ่ม: ${randomMemory.title}`}
+            decoding="async"
+          />
           <div>
             <span>
               <Images className="h-5 w-5 text-rosefire" />
@@ -748,20 +713,25 @@ export default function Partner() {
 
         <div className="mt-8 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.08] px-4 py-3 text-sm font-bold text-white backdrop-blur-xl">
           <Images className="h-5 w-5 text-rosefire" />
-          {timeline.length} memories
+          {pinkMemoryTimeline.length} memories
         </div>
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {timeline.map((memory, index) => (
+          {pinkMemoryTimeline.map((memory, index) => (
             <motion.article
               className="timeline-card"
-              key={memory.title}
+              key={memory.id || memory.image}
               initial={{ opacity: 0, y: 22 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.25 }}
-              transition={{ delay: index * 0.04 }}
+              transition={{ delay: Math.min(index * 0.015, 0.45) }}
             >
-              <img src={memory.image} alt={memory.title} />
+              <img
+                src={getOptimizedImageUrl(memory.image, memoryCardTransform)}
+                alt={memory.title}
+                loading="lazy"
+                decoding="async"
+              />
               <div>
                 <span>{String(index + 1).padStart(2, "0")}</span>
                 <h3>{memory.title}</h3>
@@ -794,3 +764,4 @@ export default function Partner() {
     </PageTransition>
   );
 }
+
