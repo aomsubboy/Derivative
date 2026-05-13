@@ -59,6 +59,28 @@ const fatherStudentPhotoUrl =
   "https://ik.imagekit.io/gonkvdlk0/Screenshot%202026-05-08%20015159.png";
 const loveFatherPhotoUrl =
   "https://ik.imagekit.io/gonkvdlk0/FB_IMG_1691827777656.jpg";
+const catGuardiansPhotoUrl =
+  "https://ik.imagekit.io/gonkvdlk0/Screenshot%202026-05-13%20225215.png";
+const catChillFloorPhotoUrl =
+  "https://ik.imagekit.io/gonkvdlk0/FB_IMG_1720807976449.jpg";
+const catDoorGangPhotoUrl =
+  "https://ik.imagekit.io/gonkvdlk0/20250831_113027.jpg";
+const catNightMealPhotoUrl =
+  "https://ik.imagekit.io/gonkvdlk0/20251223_224242.jpg";
+const catSleepyBedPhotoUrl =
+  "https://ik.imagekit.io/gonkvdlk0/IMG_20201027_174703.jpg";
+const catTripleNapPhotoUrl =
+  "https://ik.imagekit.io/gonkvdlk0/20181206_220937.jpg";
+const catPhoneWatcherPhotoUrl =
+  "https://ik.imagekit.io/gonkvdlk0/20240511_001427.jpg";
+const catBlanketBossPhotoUrl =
+  "https://ik.imagekit.io/gonkvdlk0/FB_IMG_1555687560607.jpg";
+const catTinyCupPhotoUrl =
+  "https://ik.imagekit.io/gonkvdlk0/20180903_211849.jpg";
+const catPlushThronePhotoUrl =
+  "https://ik.imagekit.io/gonkvdlk0/IMG_20220206_235453_856.jpg";
+const catToyShelfPhotoUrl =
+  "https://lh3.googleusercontent.com/pw/AP1GczO28ck-MGisbmuXQ0r5NCHPNsvIjsGUQAOLLYgLr_upYUO_BooiFSt9-ZJPySA1MX-Mm6QU3qj_B05z36T9xgmswFoATfSM9saAfEm6PeXpvbFxw96S=w683-h911-no";
 const littleKidPhotoUrlOne =
   "https://ik.imagekit.io/gonkvdlk0/20231001203858305.jpg";
 const littleKidPhotoUrlTwo =
@@ -761,23 +783,117 @@ function MemoryGallery() {
 }
 
 function FamilyTreeBoard() {
+  const [selectedCat, setSelectedCat] = useState(null);
   const catPhotos = [
     {
+      name: "คู่หูเฝ้ากรง",
+      title: "คู่หูเฝ้ากรง",
+      caption: "แมวสองตัวบนจุดสูงสุดของบ้าน โหมดหัวหน้าแก๊งมาเต็ม",
+      src: catGuardiansPhotoUrl,
+      badge: "ล่าสุด",
+      featured: true,
+    },
+    {
       name: "อ้วง",
+      title: "อ้วง",
+      caption: "สมาชิกตัวกลมประจำบ้าน",
       src: "https://ik.imagekit.io/gonkvdlk0/IMG_0559.jpg",
+      badge: "อ้วง",
+    },
+    {
+      name: "นอนชิลพื้นไม้",
+      title: "นอนชิลพื้นไม้",
+      caption: "นอนสบายแต่ยังหันมาสบตากล้องแบบรู้หน้าที่",
+      src: catChillFloorPhotoUrl,
+      badge: "Chill",
+    },
+    {
+      name: "แก๊งหน้าประตู",
+      title: "แก๊งหน้าประตู",
+      caption: "รวมตัวกันเหมือนกำลังประชุมครอบครัวแมวประจำบ้าน",
+      src: catDoorGangPhotoUrl,
+      badge: "Gang",
+    },
+    {
+      name: "มื้อดึกสามตัว",
+      title: "มื้อดึกสามตัว",
+      caption: "สามสมาชิกออกมากินข้าวกลางคืนแบบพร้อมเพรียง",
+      src: catNightMealPhotoUrl,
+      badge: "Night",
+    },
+    {
+      name: "หลับพุงอุ่น",
+      title: "หลับพุงอุ่น",
+      caption: "หลับสบายบนที่นอนแบบไม่ต้องสนโลก",
+      src: catSleepyBedPhotoUrl,
+      badge: "Nap",
+    },
+    {
+      name: "สามเสือนอนเรียง",
+      title: "สามเสือนอนเรียง",
+      caption: "สามตัวจองพื้นที่พักผ่อนแบบเต็มระบบ",
+      src: catTripleNapPhotoUrl,
+      badge: "Trio",
+    },
+    {
+      name: "สายจ้องมือถือ",
+      title: "สายจ้องมือถือ",
+      caption: "หน้าเข้มข้างมือถือ เหมือนกำลังเช็กงานบ้านอยู่",
+      src: catPhoneWatcherPhotoUrl,
+      badge: "Focus",
+    },
+    {
+      name: "หัวหน้าผ้าห่ม",
+      title: "หัวหน้าผ้าห่ม",
+      caption: "นั่งนิ่งบนผ้าห่มด้วยแววตาประจำตำแหน่ง",
+      src: catBlanketBossPhotoUrl,
+      badge: "Boss",
+    },
+    {
+      name: "เบบี้ในถ้วย",
+      title: "เบบี้ในถ้วย",
+      caption: "ลูกแมวตัวจิ๋วกับถ้วยใบใหญ่กว่าเจ้าตัว",
+      src: catTinyCupPhotoUrl,
+      badge: "Baby",
+    },
+    {
+      name: "บัลลังก์ตุ๊กตา",
+      title: "บัลลังก์ตุ๊กตา",
+      caption: "ปีนขึ้นไปยึดที่นุ่ม ๆ เป็นอาณาจักรส่วนตัว",
+      src: catPlushThronePhotoUrl,
+      badge: "Throne",
     },
     {
       name: "ไอสามสี",
+      title: "ไอสามสี",
+      caption: "ลายสามสีประจำครอบครัวแมว",
       src: "https://ik.imagekit.io/gonkvdlk0/20230924125551757.jpg",
+      badge: "สามสี",
     },
     {
       name: "Money และ Nice",
+      title: "Money และ Nice",
+      caption: "คู่แมวที่อยู่ในความทรงจำของบ้าน",
       src: "https://ik.imagekit.io/gonkvdlk0/20180424_213148.jpg",
+      badge: "Duo",
+    },
+    {
+      name: "ตาแป๋วหน้าชั้นของเล่น",
+      title: "ตาแป๋วหน้าชั้นของเล่น",
+      caption: "นั่งมองกล้องตาโตหน้าชั้นของเล่นแบบละสายตาไม่ได้",
+      src: catToyShelfPhotoUrl,
+      badge: "No.14",
     },
   ];
+  const catSlotCount = 16;
+  const featuredCat = catPhotos[0];
 
   return (
     <section className="family-tree-stack" aria-label="แผนผังครอบครัวพึ่งภักดี">
+      <MemoryLightbox
+        photo={selectedCat}
+        onClose={() => setSelectedCat(null)}
+      />
       <div className="lineage-board">
         <div className="lineage-board-title">
           <p>ครอบครัว</p>
@@ -828,29 +944,76 @@ function FamilyTreeBoard() {
             <p>Cat Family</p>
             <h2>ครอบครัวแมว</h2>
           </div>
-          <span>เว้นช่องรูปไว้ 16 รูป</span>
+          <span>{catPhotos.length} รูปจริง / {catSlotCount} ช่อง</span>
+        </div>
+
+        <div className="cat-family-spotlight">
+          <button
+            className="cat-spotlight-photo"
+            type="button"
+            onClick={() => setSelectedCat(featuredCat)}
+            aria-label={`เปิดรูป ${featuredCat.title}`}
+          >
+            <img src={featuredCat.src} alt={featuredCat.title} loading="lazy" />
+            <span>
+              <Sparkles className="h-4 w-4" />
+              {featuredCat.badge}
+            </span>
+          </button>
+
+          <div className="cat-spotlight-copy">
+            <p>Cat Family Upgrade</p>
+            <h3>แก๊งแมวบ้านนี้เข้าสู่โหมดหัวหน้าแก๊ง</h3>
+            <span>
+              สองสายตาบนหลังคากรงกับบรรยากาศบ้านที่มีแมวคอยยึดพื้นที่นุ่ม ๆ เป็นของตัวเอง
+            </span>
+
+            <div className="cat-family-stats" aria-label="สถิติรูปครอบครัวแมว">
+              <div>
+                <strong>{catPhotos.length}</strong>
+                <span>รูปจริง</span>
+              </div>
+              <div>
+                <strong>{catSlotCount - catPhotos.length}</strong>
+                <span>ช่องรอเพิ่ม</span>
+              </div>
+              <div>
+                <strong>{catSlotCount}</strong>
+                <span>ช่องรวม</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="cat-photo-grid">
-          {Array.from({ length: 16 }, (_, index) => {
+          {Array.from({ length: catSlotCount }, (_, index) => {
             const cat = catPhotos[index];
 
+            if (cat) {
+              return (
+                <motion.button
+                  className={`cat-photo-slot has-photo ${cat.featured ? "is-featured" : ""}`}
+                  key={cat.src}
+                  type="button"
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ delay: Math.min(index * 0.05, 0.24) }}
+                  onClick={() => setSelectedCat(cat)}
+                  aria-label={`เปิดรูปแมว ${cat.name}`}
+                >
+                  <img src={cat.src} alt={`รูปแมว ${cat.name}`} loading="lazy" />
+                  <span className="cat-slot-badge">{cat.badge}</span>
+                  <strong>{cat.name}</strong>
+                </motion.button>
+              );
+            }
+
             return (
-              <div
-                className={`cat-photo-slot ${cat ? "has-photo" : ""}`}
-                key={`cat-slot-${index + 1}`}
-              >
-                {cat ? (
-                  <>
-                    <img src={cat.src} alt={`รูปแมว ${cat.name}`} loading="lazy" />
-                    <strong>{cat.name}</strong>
-                  </>
-                ) : (
-                  <>
-                    <Camera className="h-7 w-7" />
-                    <strong>Cat {String(index + 1).padStart(2, "0")}</strong>
-                  </>
-                )}
+              <div className="cat-photo-slot is-empty" key={`cat-slot-${index + 1}`}>
+                <Camera className="h-7 w-7" />
+                <strong>Cat {String(index + 1).padStart(2, "0")}</strong>
+                <span>รอรูปใหม่</span>
               </div>
             );
           })}

@@ -1190,7 +1190,31 @@ button {
   }
 
   .cat-family-board {
-    @apply overflow-hidden rounded-3xl border border-ember/25 bg-black/35 p-4 shadow-gold backdrop-blur-2xl sm:p-6;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border: 1px solid rgba(255, 184, 107, 0.38);
+    border-radius: 1.5rem;
+    background:
+      linear-gradient(135deg, rgba(18, 12, 8, 0.92), rgba(7, 18, 19, 0.88)),
+      repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.055) 0 1px, transparent 1px 16px);
+    padding: clamp(1rem, 3vw, 1.5rem);
+    box-shadow:
+      0 28px 82px rgba(0, 0, 0, 0.34),
+      0 0 0 1px rgba(255, 255, 255, 0.09) inset,
+      0 0 44px rgba(255, 184, 107, 0.16);
+    backdrop-filter: blur(22px);
+  }
+
+  .cat-family-board::before {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    content: "";
+    background:
+      linear-gradient(115deg, rgba(255, 184, 107, 0.2), transparent 34%),
+      linear-gradient(295deg, rgba(73, 216, 255, 0.13), transparent 38%);
+    pointer-events: none;
   }
 
   .cat-family-heading {
@@ -1199,51 +1223,254 @@ button {
 
   .cat-family-heading p {
     @apply text-sm font-black uppercase text-ember;
+    letter-spacing: 0.12em;
   }
 
   .cat-family-heading h2 {
-    @apply mt-2 text-3xl font-black text-white sm:text-4xl;
-    line-height: 1.1;
+    @apply mt-2 font-black text-white;
+    font-size: clamp(2rem, 5vw, 4.25rem);
+    line-height: 0.95;
   }
 
   .cat-family-heading span {
     @apply inline-flex w-fit rounded-full border border-white/15 bg-white/[0.08] px-4 py-2 text-sm font-black text-slate-100;
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.22);
+  }
+
+  .cat-family-spotlight {
+    display: grid;
+    grid-template-columns: minmax(0, 0.94fr) minmax(18rem, 1.06fr);
+    gap: 1rem;
+    margin-bottom: 1rem;
+    align-items: stretch;
+  }
+
+  .cat-spotlight-photo {
+    position: relative;
+    display: block;
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 1.1rem;
+    background: #050509;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.34);
+    outline: none;
+  }
+
+  .cat-spotlight-photo:focus-visible {
+    box-shadow:
+      0 24px 60px rgba(0, 0, 0, 0.34),
+      0 0 0 3px rgba(73, 216, 255, 0.72);
+  }
+
+  .cat-spotlight-photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 16 / 11;
+    object-fit: cover;
+    transition: transform 0.55s ease, filter 0.55s ease;
+  }
+
+  .cat-spotlight-photo:hover img {
+    transform: scale(1.035);
+    filter: saturate(1.12) contrast(1.04);
+  }
+
+  .cat-spotlight-photo::after {
+    position: absolute;
+    inset: 0;
+    content: "";
+    background: linear-gradient(180deg, transparent 48%, rgba(0, 0, 0, 0.68));
+    pointer-events: none;
+  }
+
+  .cat-spotlight-photo > span {
+    @apply absolute bottom-3 left-3 z-10 inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/60 px-3 py-2 text-xs font-black uppercase text-white backdrop-blur-xl;
+    letter-spacing: 0.1em;
+  }
+
+  .cat-spotlight-copy {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 3px solid rgba(255, 184, 107, 0.44);
+    padding: clamp(0.75rem, 2vw, 1.25rem);
+  }
+
+  .cat-spotlight-copy p {
+    @apply text-xs font-black uppercase text-aqua;
+    letter-spacing: 0.14em;
+  }
+
+  .cat-spotlight-copy h3 {
+    @apply mt-3 font-black text-white;
+    font-size: clamp(1.65rem, 4vw, 3.2rem);
+    line-height: 1;
+    overflow-wrap: anywhere;
+  }
+
+  .cat-spotlight-copy > span {
+    @apply mt-4 block max-w-2xl text-sm font-semibold text-slate-200 sm:text-base;
+    line-height: 1.8;
+  }
+
+  .cat-family-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.7rem;
+    margin-top: 1.15rem;
+  }
+
+  .cat-family-stats div {
+    min-width: 0;
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 0.9rem;
+    background: rgba(255, 255, 255, 0.075);
+    padding: 0.85rem;
+  }
+
+  .cat-family-stats strong {
+    @apply block text-3xl font-black text-ember;
+    line-height: 1;
+  }
+
+  .cat-family-stats span {
+    @apply mt-2 block text-xs font-black uppercase text-slate-300;
+    line-height: 1.25;
   }
 
   .cat-photo-grid {
-    @apply grid gap-3;
-    grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+    gap: 0.75rem;
+    grid-auto-flow: dense;
   }
 
   .cat-photo-slot {
-    @apply flex aspect-square flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-ember/35 bg-ember/[0.08] text-ember transition;
+    position: relative;
+    display: flex;
+    min-width: 0;
+    aspect-ratio: 1 / 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    overflow: hidden;
+    border: 1px dashed rgba(255, 184, 107, 0.36);
+    border-radius: 1rem;
+    background:
+      linear-gradient(160deg, rgba(255, 184, 107, 0.12), rgba(73, 216, 255, 0.07)),
+      rgba(255, 255, 255, 0.04);
+    color: #ffcf91;
+    text-align: center;
+    transition:
+      transform 0.28s ease,
+      border-color 0.28s ease,
+      background 0.28s ease,
+      box-shadow 0.28s ease;
   }
 
-  .cat-photo-slot.has-photo {
-    @apply relative overflow-hidden border-solid border-ember/45 bg-black/30 p-0 text-white shadow-gold;
+  button.cat-photo-slot {
+    appearance: none;
   }
 
   .cat-photo-slot:hover {
-    @apply -translate-y-1 border-aqua/45 bg-aqua/[0.08] text-aqua shadow-glow;
+    transform: translateY(-4px);
+    border-color: rgba(73, 216, 255, 0.58);
+    background:
+      linear-gradient(160deg, rgba(73, 216, 255, 0.14), rgba(255, 184, 107, 0.09)),
+      rgba(255, 255, 255, 0.05);
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.28);
   }
 
-  .cat-photo-slot.has-photo:hover {
-    @apply border-ember/60 bg-black/30 text-white;
-  }
-
-  .cat-photo-slot img {
-    @apply h-full w-full object-cover;
+  .cat-photo-slot:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(73, 216, 255, 0.72);
   }
 
   .cat-photo-slot strong {
     @apply text-sm font-black;
+    line-height: 1.25;
+  }
+
+  .cat-photo-slot.is-empty span {
+    @apply text-xs font-bold text-slate-400;
+  }
+
+  .cat-photo-slot.has-photo {
+    border-style: solid;
+    border-color: rgba(255, 184, 107, 0.48);
+    background: #050509;
+    color: #fff;
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.28);
+    cursor: zoom-in;
+  }
+
+  .cat-photo-slot.has-photo::after {
+    position: absolute;
+    inset: 0;
+    content: "";
+    background: linear-gradient(180deg, transparent 42%, rgba(0, 0, 0, 0.72));
+    pointer-events: none;
+  }
+
+  .cat-photo-slot.has-photo:hover {
+    border-color: rgba(255, 184, 107, 0.72);
+  }
+
+  .cat-photo-slot.has-photo:hover img {
+    transform: scale(1.055);
+    filter: saturate(1.12) contrast(1.04);
+  }
+
+  .cat-photo-slot img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.45s ease, filter 0.45s ease;
   }
 
   .cat-photo-slot.has-photo strong {
-    @apply absolute bottom-2 right-2 rounded-full border border-white/20 bg-black/55 px-2.5 py-1 text-right font-black text-white backdrop-blur-xl;
-    max-width: calc(100% - 1rem);
-    font-size: 0.68rem;
+    @apply absolute bottom-2 left-2 right-2 z-10 rounded-full border border-white/20 bg-black/60 px-2.5 py-1.5 text-center font-black text-white backdrop-blur-xl;
+    font-size: 0.74rem;
+    line-height: 1.1;
+  }
+
+  .cat-slot-badge {
+    @apply absolute left-2 top-2 z-10 rounded-full border border-white/20 bg-ember px-2.5 py-1 text-[0.66rem] font-black uppercase text-ink shadow-gold;
     line-height: 1;
+  }
+
+  @media (min-width: 720px) {
+    .cat-photo-slot.has-photo.is-featured {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .cat-family-spotlight {
+      grid-template-columns: 1fr;
+    }
+
+    .cat-spotlight-copy {
+      border-top: 3px solid rgba(255, 184, 107, 0.44);
+      border-left: 0;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .cat-family-stats {
+      grid-template-columns: 1fr;
+    }
+
+    .cat-photo-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 
   .lineage-board::before {
