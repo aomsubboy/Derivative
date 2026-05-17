@@ -1,33 +1,57 @@
 import { motion } from "framer-motion";
-import { Crown, Heart, Home, ShieldCheck, Sparkles } from "lucide-react";
+import {
+  ArrowRight,
+  Crown,
+  ExternalLink,
+  Heart,
+  Home,
+  ShieldCheck,
+  Sparkles,
+} from "lucide-react";
 import LogoutButton from "../components/LogoutButton.jsx";
 import PageTransition from "../components/PageTransition.jsx";
 import PortalCard from "../components/PortalCard.jsx";
 import gatewayImage from "../assets/world-gateway.png";
 import { getSession } from "../routes/auth.js";
 
+const portfolioUrl = "https://aomsubboy.github.io/PortAomsub/";
+const profileImageUrl =
+  "https://ik.imagekit.io/gonkvdlk0/%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B9%83%E0%B8%AA%E0%B9%88%E0%B9%80%E0%B8%A7%E0%B9%87%E0%B8%9A%E0%B8%9E%E0%B8%AD%E0%B8%A3%E0%B9%8C%E0%B8%97/profile%20.jpg";
+
 export default function Gateway() {
   const session = getSession();
 
   return (
-    <PageTransition className="page-shell">
+    <PageTransition className="page-shell gateway-page">
       <div
-        className="cinematic-bg"
+        className="cinematic-bg gateway-cinematic-bg"
         style={{ backgroundImage: `url(${gatewayImage})` }}
       />
       <div className="signal-grid" />
       <div className="noise-layer" />
+      <div className="gateway-motion-lines" aria-hidden="true" />
 
       <section className="section-pad flex min-h-[100svh] flex-col justify-center gap-10 py-10">
-        <nav className="flex items-center justify-between gap-4">
+        <nav className="flex flex-wrap items-center justify-between gap-4">
           <div className="eyebrow">
             <ShieldCheck className="h-4 w-4 text-aurora" />
             Admin Gateway
           </div>
-          <LogoutButton />
+          <div className="flex items-center gap-3">
+            <a
+              className="ghost-button"
+              href={portfolioUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <ExternalLink className="h-4 w-4" />
+              Port
+            </a>
+            <LogoutButton />
+          </div>
         </nav>
 
-        <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
+        <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div>
             <motion.div
               className="inline-flex h-16 w-16 items-center justify-center rounded-3xl border border-ember/35 bg-ember/10 shadow-gold"
@@ -41,42 +65,63 @@ export default function Gateway() {
               Welcome back, {session?.displayName || "Aomsub"}
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-9 text-slate-200">
-              เลือกประตูที่อยากเปิดจาก command center ของคุณ ทุกพื้นที่ถูกแยกสิทธิ์ไว้แล้ว
-              และบัญชีนี้มองเห็นได้ครบทั้งสองโลก
+              เลือกพื้นที่ที่อยากเปิดต่อจากหน้านี้ได้เลย ผมปรับให้ทางเข้าอ่านง่ายขึ้น
+              ภาพชัดขึ้น และกดใช้งานบนมือถือได้ลื่นกว่าเดิม
             </p>
+            <motion.a
+              className="portfolio-link-card mt-7"
+              href={portfolioUrl}
+              target="_blank"
+              rel="noreferrer"
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.28 }}
+            >
+              <img src={profileImageUrl} alt="รูปโปรไฟล์ Aomsub" />
+              <span>
+                <strong>ดู Portfolio ของฉัน</strong>
+                <small>aomsubboy.github.io/PortAomsub</small>
+              </span>
+              <ArrowRight className="h-5 w-5" />
+            </motion.a>
           </div>
 
           <motion.div
-            className="glass-panel rounded-3xl p-5 sm:p-7"
+            className="gateway-command-card"
             initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.28 }}
+            transition={{ delay: 0.22 }}
           >
+            <div className="gateway-command-visual">
+              <span className="gateway-profile-ring ring-one" />
+              <span className="gateway-profile-ring ring-two" />
+              <img src={profileImageUrl} alt="รูปโปรไฟล์ Aomsub" />
+            </div>
             <div className="flex items-center gap-4 border-b border-white/10 pb-5">
               <Sparkles className="h-6 w-6 text-aqua" />
               <div>
                 <p className="text-sm uppercase tracking-[0.22em] text-slate-400">
-                  System
+                  Gateway Ready
                 </p>
                 <p className="text-xl font-black text-white">
-                  All portals online
+                  Friendly mobile portal
                 </p>
               </div>
             </div>
-            <div className="mt-6 grid grid-cols-3 gap-3 text-center">
-              {["Family", "Partner", "Admin"].map((item) => (
-                <div className="glass-soft rounded-2xl p-4" key={item}>
-                  <p className="text-xs uppercase tracking-[0.18em] text-slate-400">
-                    Area
-                  </p>
-                  <p className="mt-1 text-sm font-bold text-white">{item}</p>
-                </div>
-              ))}
+            <div className="mt-6 grid gap-3 sm:grid-cols-2">
+              <div className="gateway-mini-panel">
+                <p>Profile</p>
+                <strong>Aomsub</strong>
+              </div>
+              <div className="gateway-mini-panel">
+                <p>Portal</p>
+                <strong>Family + Partner</strong>
+              </div>
             </div>
           </motion.div>
         </div>
 
-        <div className="grid gap-5 lg:grid-cols-2">
+        <div className="gateway-portal-grid grid gap-5 lg:grid-cols-2">
           <PortalCard
             to="/family"
             icon={Home}

@@ -652,6 +652,40 @@ function FunctionBentoMenu({ activeFunction, onChange }) {
   );
 }
 
+function FunctionFloatingDock({ activeFunction, onChange }) {
+  return (
+    <motion.div
+      className="family-floating-dock"
+      aria-label="เลือกฟังก์ชัน Family Memory แบบลอย"
+      initial={{ opacity: 0, y: 24, scale: 0.96 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ delay: 0.32, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <p>เลือกฟังก์ชัน</p>
+      <div>
+        {familyFunctions.map((item) => {
+          const Icon = item.icon;
+          const isActive = activeFunction === item.id;
+
+          return (
+            <button
+              className={isActive ? "is-active" : ""}
+              key={item.id}
+              type="button"
+              onClick={() => onChange(item.id)}
+              aria-label={`เปิด${item.title}`}
+              aria-pressed={isActive}
+            >
+              <Icon className="h-4 w-4" />
+              <span>{item.title}</span>
+            </button>
+          );
+        })}
+      </div>
+    </motion.div>
+  );
+}
+
 function MemoryLightbox({ photo, onClose }) {
   if (!photo) {
     return null;
@@ -1238,6 +1272,11 @@ export default function Family() {
       <div className="noise-layer" />
 
       <section className="section-pad flex min-h-[100svh] flex-col gap-8 py-10">
+        <FunctionFloatingDock
+          activeFunction={activeFunction}
+          onChange={setActiveFunction}
+        />
+
         <nav className="flex items-center justify-between gap-4">
           <div className="eyebrow">
             <Heart className="h-4 w-4 text-ember" />

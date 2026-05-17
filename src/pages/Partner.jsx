@@ -337,7 +337,7 @@ export default function Partner() {
             <p className="text-sm font-semibold uppercase tracking-[0.28em] text-rose-200">
               For {displayName}
             </p>
-            <h1 className="glow-text partner-title mt-5 max-w-3xl whitespace-nowrap text-[clamp(2.2rem,7vw,4.8rem)] font-black leading-[1.12] text-white">
+            <h1 className="glow-text partner-title mt-5 max-w-3xl text-[clamp(2.2rem,7vw,4.8rem)] font-black leading-[1.12] text-white">
               รักปิ๊งน้า
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-9 text-rose-50/90">
